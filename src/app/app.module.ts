@@ -3,14 +3,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import {CarsModule, CarsListComponent, CarsRoutingModule, CarsService} from "./cars";
+
+
 import { AppComponent } from './app.component';
-import {CarsModule} from "./cars/cars.module";
-import {CarsService} from "./cars/cars.service";
+
+
 import {CoreModule} from "./core-module/core.module";
-import {CarsListComponent} from "./cars/cars-list/cars-list.component";
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
-import {CarsRoutingModule} from "./cars/cars-routing.module";
 
 @NgModule({
   declarations: [

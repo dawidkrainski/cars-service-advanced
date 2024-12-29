@@ -11,26 +11,24 @@
     <div class="col-sm-12">
       <table *ngIf="cars && cars.length > 0; else noCarsInfo" class="cs-table table table-striped">
         <thead>
-          <tr>
-            <th>car</th>
-            <th>plate</th>
-            <th>delivery date</th>
-            <th>deadline</th>
-            <th>client</th>
-            <th>cost</th>
-            <th>action</th>
-          </tr>
+        <tr>
+          <th>car</th>
+          <th>plate</th>
+          <th>delivery date</th>
+          <th>deadline</th>
+          <th>client</th>
+          <th>cost</th>
+          <th>action</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let car of cars; let i = index" (click)="goToCarDetails(car)" class="row-car">
-            <td csImportant [ngClass]="{'row-error': car.isFullyDamaged}"> {{ car?.model | uppercase }}</td>
-            <td> {{ car?.plate }}</td>
-            <td> {{ car?.deliveryDate | date:'shortDate' }}</td>
-            <td> {{ car?.deadline | date:'shortDate' }}</td>
-            <td> {{ car?.clientFirstName }} {{ car?.clientSurname | surnameShortcut }}</td>
-            <td csImportant> {{ car?.cost | currency:'PLN':true }}</td>
-            <td (click)="removeCar(car, $event)"> ( X ) </td>
-          </tr>
+        <tr *ngFor="let car of cars; let i = index"
+            (click)="goToCarDetails(car)"
+            class="row-car"
+            cs-car-table-row
+            [car]="car"
+            (removedCar)="onRemovedCar(car)">
+        </tr>
         </tbody>
       </table>
       <ng-template #noCarsInfo>
@@ -92,7 +90,7 @@
       </div>
       <div class="col-sm-4">
         <label>Is car fully damaged
-          <input formControlName="isFullyDamaged" type="checkbox">
+          <input formControlName="isFullyDamaged" type="checkbox" (change)="togglePlateValidatory()">
         </label>
       </div>
     </div>
@@ -104,7 +102,8 @@
       </div>
       <div class="col-sm-4">
         <label>Power</label>
-        <input formControlName="power" type="text" class="form-control" placeholder="power">
+        <input formControlName="power" type="number" class="form-control" placeholder="power">
+        <p *ngIf="carForm.get('power').errors?.power && carForm.get('power').dirty" class="error">Power must be more then 50 and less then 800</p>
       </div>
       <div class="col-sm-4">
         <label>Cost</label>
@@ -127,6 +126,39 @@
       </div>
     </div>
 
+
+    <div formArrayName="parts" *ngFor="let part of parts.controls; let i = index">
+      <div [formGroupName]="i" class="part-group">
+  <div class="row">
+    <div class="col-12">
+      <h5>
+        {{ i + 1 }}) {{ part?.value?.name }}
+        {{ (part?.value?.price || 0) | currency: 'PLN': true }}
+        <span (click)="removePart(i)" class="btn btn-danger float-right mr-3">x</span>
+      </h5>   </div>
+  </div>
+          <div class="row form-group">
+            <div class="col-sm-4 ml-3">
+              <label>Part name</label>
+              <input formControlName="name" type="text" class="form-control" placeholder="part name">
+            </div>
+            <div class="col-sm-3 pt-4" style="justify-self: center">
+              <label>In sock</label>
+              <input formControlName="inStock" type="checkbox">
+            </div>
+            <div class="col-sm-4 mr-3">
+              <label>Price</label>
+              <input formControlName="price" type="text" class="form-control" placeholder="price">
+            </div>
+          </div>
+        </div>
+    </div>
+
+<button class="btn btn-primary mt-2" (click)="addPart()">Add Part</button>
+
+
+
+
     <div class="row">
       <div class="col-sm-12">
 
@@ -135,7 +167,6 @@
       </div>
     </div>
   </form>
-
 </div>
 
 
