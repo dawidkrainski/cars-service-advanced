@@ -12,4 +12,5 @@ export interface Car {
   cost: number;
   isFullyDamaged: boolean;
   year: number;
+  parts: Object[];
 }

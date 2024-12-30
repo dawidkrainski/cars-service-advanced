@@ -7,6 +7,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CostSharedService} from "../cost-shared.service";
 import {CarTableRowComponent} from "../car-table-row/car-table-row.component";
 import {CsValidators} from "../../shared-module/validators/cs-validators";
+import {CanDeactivateComponent} from "../../guards/form-can-deactivate.guard";
 
 @Component({
   selector: 'cs-cars-list',
@@ -14,7 +15,7 @@ import {CsValidators} from "../../shared-module/validators/cs-validators";
   styleUrls: ['./cars-list.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class CarsListComponent implements OnInit, AfterViewInit {
+export class CarsListComponent implements OnInit, AfterViewInit, CanDeactivateComponent {
   @ViewChild("totalCostRef") totalCostRef : TotalCostComponent;
   @ViewChildren(CarTableRowComponent) carRows : QueryList<CarTableRowComponent>;
   totalCost : number;
@@ -30,6 +31,13 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loadCars();
     this.carForm = this.buildCarForm();
+  }
+
+  canDeactivate() {
+    if(!this.carForm.dirty){
+      return true;
+    }
+    return window.confirm('Are you sure discard your changes?');
   }
 
   ngAfterViewInit() {
@@ -52,7 +60,6 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       power: ['',CsValidators.power],
       clientFirstName: '',
       clientSurname: '',
-      cost: '',
       isFullyDamaged: '',
       year: '',
       parts: this.formBuilder.array([])
@@ -102,9 +109,18 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   }
 
   addCar() {
-    this.carsService.addCar(this.carForm.value).subscribe(() => {
+    let carFormData = Object.assign({}, this.carForm.value);
+    carFormData.cost = this.getPartsCost(carFormData.parts);
+
+    this.carsService.addCar(carFormData).subscribe(() => {
       this.loadCars();
     });
+  }
+
+  getPartsCost (parts) {
+    return parts.reduce((prev, nextPart) => {
+      return parseFloat(prev) + parseFloat(nextPart.price);
+    }, 0);
   }
 
   goToCarDetails(car : Car) {

@@ -1,5 +1,5 @@
-<cs-sidebar></cs-sidebar>
-<div id="content-wrapper">
+<cs-sidebar *ngIf="isSidebarVisible"></cs-sidebar>
+<div class="content-wrapper" [ngClass]="{'content-wrapper-login-view': !isSidebarVisible}">
   <router-outlet></router-outlet>
 </div>
 

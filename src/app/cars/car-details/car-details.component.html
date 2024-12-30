@@ -55,8 +55,8 @@
         <input formControlName="power" type="text" class="form-control" placeholder="power">
       </div>
       <div class="col-sm-4">
-        <label>Cost</label>
-        <input formControlName="cost" type="text" class="form-control" placeholder="cost">
+        <label>Year</label>
+        <input formControlName="year" type="text" class="form-control" placeholder="year">
       </div>
     </div>
 
@@ -69,11 +69,36 @@
         <label>Client Last Name</label>
         <input formControlName="clientSurname" type="text" class="form-control" placeholder="Client Last Name">
       </div>
-      <div class="col-sm-4">
-        <label>Year</label>
-        <input formControlName="year" type="text" class="form-control" placeholder="year">
+    </div>
+
+    <div formArrayName="parts" *ngFor="let part of parts.controls; let i = index">
+      <div [formGroupName]="i" class="part-group">
+        <div class="row">
+          <div class="col-12">
+            <h5>
+              {{ i + 1 }}) {{ part?.value?.name }}
+              {{ (part?.value?.price || 0) | currency: 'PLN': true }}
+              <span (click)="removePart(i)" class="btn btn-danger float-right mr-3">x</span>
+            </h5>   </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-4 ml-3">
+            <label>Part name</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="part name">
+          </div>
+          <div class="col-sm-4 mr-3">
+            <label>Price</label>
+            <input formControlName="price" type="text" class="form-control" placeholder="price">
+          </div>
+          <div class="col-sm-3 pt-4" style="justify-self: center">
+            <label>In sock</label>
+            <input formControlName="inStock" type="checkbox">
+          </div>
+        </div>
       </div>
     </div>
+
+    <button class="btn btn-primary mt-2" (click)="addPart()">Add Part</button>
 
     <div class="row">
       <div class="col-sm-12">

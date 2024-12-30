@@ -106,8 +106,8 @@
         <p *ngIf="carForm.get('power').errors?.power && carForm.get('power').dirty" class="error">Power must be more then 50 and less then 800</p>
       </div>
       <div class="col-sm-4">
-        <label>Cost</label>
-        <input formControlName="cost" type="text" class="form-control" placeholder="cost">
+        <label>Year</label>
+        <input formControlName="year" type="text" class="form-control" placeholder="year">
       </div>
     </div>
 
@@ -120,10 +120,7 @@
         <label>Client Last Name</label>
         <input formControlName="clientSurname" type="text" class="form-control" placeholder="Client Last Name">
       </div>
-      <div class="col-sm-4">
-        <label>Year</label>
-        <input formControlName="year" type="text" class="form-control" placeholder="year">
-      </div>
+
     </div>
 
 
@@ -142,13 +139,13 @@
               <label>Part name</label>
               <input formControlName="name" type="text" class="form-control" placeholder="part name">
             </div>
-            <div class="col-sm-3 pt-4" style="justify-self: center">
-              <label>In sock</label>
-              <input formControlName="inStock" type="checkbox">
-            </div>
             <div class="col-sm-4 mr-3">
               <label>Price</label>
               <input formControlName="price" type="text" class="form-control" placeholder="price">
+            </div>
+            <div class="col-sm-3 pt-4" style="justify-self: center">
+              <label>In sock</label>
+              <input formControlName="inStock" type="checkbox">
             </div>
           </div>
         </div>

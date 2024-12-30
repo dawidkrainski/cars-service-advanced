@@ -2,13 +2,28 @@ import {NgModule} from "@angular/core";
 import {RouterModule, Route} from "@angular/router";
 import {CarDetailsComponent} from "./car-details/car-details.component";
 import {CarResolve} from "./car-resolve.service";
-
+import {CarsComponent} from "./cars.component";
+import {CarsListComponent} from "./cars-list/cars-list.component";
+import {FormCanDeactivateGuard} from "../guards/form-can-deactivate.guard";
 const CARS_ROUTES : Route[] = [
   {
-    path: 'cars/:id',
-    component: <any>CarDetailsComponent,
-    resolve: { car: CarResolve }
-  }
+
+      path: '',
+      component: <any>CarsComponent,
+      children: [
+        {
+
+            path: '',
+            component: <any>CarsListComponent,
+          canDeactivate: [FormCanDeactivateGuard]
+        },
+        {
+          path: ':id',
+          component: <any>CarDetailsComponent,
+          resolve: { car: CarResolve },
+        }
+        ]
+  },
 ];
 
 @NgModule({
