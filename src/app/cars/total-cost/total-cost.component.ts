@@ -19,9 +19,6 @@ export class TotalCostComponent implements OnChanges{
 
   ngOnChanges(changes:SimpleChanges) {
     this.isCostTooLow = changes['totalCost'].currentValue < this.costThreshold;
-    console.log('previousValue:', changes['totalCost'].previousValue);
-    console.log('currentValue:', changes['totalCost'].currentValue);
-    console.log('isFirstChange:', changes['totalCost'].isFirstChange());
   }
 
 
