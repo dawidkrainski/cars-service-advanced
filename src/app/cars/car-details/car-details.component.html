@@ -77,7 +77,7 @@
           <div class="col-12">
             <h5>
               {{ i + 1 }}) {{ part?.value?.name }}
-              {{ (part?.value?.price || 0) | currency: 'PLN': true }}
+              {{ (part?.value?.price || 0)  }}
               <span (click)="removePart(i)" class="btn btn-danger float-right mr-3">x</span>
             </h5>   </div>
         </div>

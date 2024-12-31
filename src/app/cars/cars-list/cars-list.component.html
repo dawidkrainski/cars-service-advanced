@@ -24,7 +24,7 @@
         <tbody>
         <tr *ngFor="let car of cars; let i = index"
             (click)="goToCarDetails(car)"
-            class="row-car"
+            class="row-car after-deadline"
             cs-car-table-row
             [car]="car"
             (removedCar)="onRemovedCar(car)">

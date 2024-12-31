@@ -17,6 +17,7 @@ import {CostSharedService} from "../cost-shared.service";
 import {CarTableRowComponent} from "../car-table-row/car-table-row.component";
 import {CsValidators} from "../../shared-module/validators/cs-validators";
 import {CanDeactivateComponent} from "../../guards/form-can-deactivate.guard";
+import {Renderer2} from "@angular/core";
 
 @Component({
   selector: 'cs-cars-list',
@@ -33,8 +34,11 @@ export class CarsListComponent implements OnInit, AfterViewInit, CanDeactivateCo
   cars : Car[] = [];
   carForm : FormGroup;
 
+
+
   constructor(private carsService : CarsService,
               private formBuilder : FormBuilder,
+              private renderer : Renderer2,
               private costSharedService : CostSharedService,
               private router : Router) {}
 
@@ -55,9 +59,10 @@ const addCarTitle = this.addCarTitle.nativeElement;
 
 this.carForm.valueChanges.subscribe(()=>{
   if(this.carForm.invalid){
-    addCarTitle.style.color = 'yellow';
+    this.renderer.setStyle(addCarTitle, 'color', 'red');
   } else {
-    addCarTitle.style.color = 'white';
+    this.renderer.setStyle(addCarTitle, 'color', 'white');
+
   }
 })
 
